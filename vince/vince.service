@@ -1,0 +1,19 @@
+[Unit]
+Description=Vince is a self hosted alternative to Google Analytics
+# https://vinceanalytics.com/guides
+After=network.target
+
+[Service]
+Type=simple
+User=vince
+Group=vince
+StartLimitBurst=5
+StartLimitInterval=0
+Restart=on-failure
+EnvironmentFile=-/etc/vince/vince.conf
+ExecStart=/usr/bin/vince $ARGS
+ExecStop=/bin/kill -s SIGTERM $MAINPID
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target
